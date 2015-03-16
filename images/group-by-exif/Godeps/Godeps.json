@@ -1,0 +1,18 @@
+{
+	"ImportPath": "github.com/nicolai86/fshelpers/images/group-by-exif",
+	"GoVersion": "go1.4.2",
+	"Deps": [
+		{
+			"ImportPath": "github.com/MichaelTJones/walk",
+			"Rev": "3af09438b0ab0e8f296410bfa646a7e635ea1fc0"
+		},
+		{
+			"ImportPath": "github.com/rwcarlsen/goexif/exif",
+			"Rev": "07696a806c8bc37bcff4af76fbc3f9e44a6941fc"
+		},
+		{
+			"ImportPath": "github.com/rwcarlsen/goexif/tiff",
+			"Rev": "07696a806c8bc37bcff4af76fbc3f9e44a6941fc"
+		}
+	]
+}
