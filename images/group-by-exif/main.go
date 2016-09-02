@@ -92,7 +92,8 @@ func (d *dirWalker) move(p string) {
 	if err != nil && os.IsNotExist(err) {
 		os.Rename(p, destination)
 	} else {
-		log.Printf("%q exists already (%q)", p, destination)
+		os.Remove(p)
+		log.Printf("%q exists already (%q), removing", p, destination)
 	}
 }
 
@@ -104,7 +105,20 @@ func (d *dirWalker) walk(p string, info os.FileInfo, err error) error {
 	}
 
 	if stat.IsDir() && p != d.root && !d.recurse {
-		return filepath.SkipDir
+		return walk.SkipDir
+	}
+
+	if stat.IsDir() {
+		skip := false
+		for _, dir := range skipDirs {
+			if filepath.Base(p) == dir {
+				skip = true
+			}
+		}
+		if skip {
+			fmt.Printf("skipping %q\n", p)
+			return walk.SkipDir
+		}
 	}
 
 	var parts = strings.Split(p, ".")
@@ -132,7 +146,12 @@ func main() {
 		walkPath, _ = os.Getwd()
 	)
 
-	var walker = &dirWalker{walkPath, true, make(chan string), sync.WaitGroup{}}
+	var walker = &dirWalker{
+		root:    walkPath,
+		recurse: true,
+		c:       make(chan string),
+		w:       sync.WaitGroup{},
+	}
 
 	go walker.process()
 	go walker.process()
