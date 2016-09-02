@@ -23,8 +23,26 @@ var extensions = map[string]struct{}{
 	"tiff": struct{}{},
 }
 
-// these top level folders are ignored
-var skipDirs = "2000 2001 2002 2003 2004 2005 2006 2007 2008 2009 2010 2011 2012 2013 2014 2015"
+var skipDirs = []string{
+	"2000",
+	"2001",
+	"2002",
+	"2003",
+	"2004",
+	"2005",
+	"2006",
+	"2007",
+	"2008",
+	"2009",
+	"2010",
+	"2011",
+	"2012",
+	"2013",
+	"2014",
+	"2015",
+	"2016",
+	"2017",
+}
 
 func imageCaptureDate(filename string) *time.Time {
 	f, err := os.Open(filename)
@@ -106,6 +124,8 @@ func (d *dirWalker) process() {
 }
 
 func main() {
+	skipDirs = append(skipDirs, os.Args[1:]...)
+	fmt.Printf("ignoring %q\n", skipDirs)
 	// TODO specify which folder to look at through flags
 	// TODO specify where to place files through flags
 	var (
