@@ -21,9 +21,12 @@ var extensions = map[string]struct{}{
 	"png":  struct{}{},
 	"nef":  struct{}{},
 	"tiff": struct{}{},
+	"m4v":  struct{}{},
+	"mp4":  struct{}{},
 }
 
 var skipDirs = []string{
+	"snapshot",
 	"2000",
 	"2001",
 	"2002",
